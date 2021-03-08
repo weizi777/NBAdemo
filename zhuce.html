@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>注册</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="./js/jquery-1.8.0.min.js"></script>
+        <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    </head>
+    <body>
+    
+      
+        <header>
+            <nav class="b_clear">
+                <div class="nav_logo l_float">
+                    <img src="imgs/Login_log.png" alt="">
+                    
+                </div>
+                <p class="text">热爱，只关于篮球</p>
+                <div class="nav_link r_float">
+                    <ul>
+                        <li><a href="#">返回首页</a></li>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">联系我们</a></li>
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="login_body l_clear">
+                <div class="login_form l_float">
+                    <div class="login_top">
+                        <img src="imgs/Login_log.png" alt="" class="">
+                        
+                        <div class="login_tags b_clear">
+                            <span class="top_tag l_float active" >用户注册</span>
+                           
+                        </div>
+                    </div>
+                    <div class="login_con">
+                        <form >
+                            <div>
+                                <label for="user_name">用户名</label>
+                                <input type="text" name="" id="user_name" placeholder="账号/手机号/邮箱">
+                                <img src="imgs/icons/user.svg">
+                                <p class="tips hidden">请检查您的账号</p>
+                            </div>
+                            <div>
+                                <label for="user_pwd">密码</label>
+                                <input type="password" name="" id="user_pwd" placeholder="请输入账户密码">
+                                <img src="imgs/icons/lock.svg">
+                                <p class="tips hidden">请检查您的密码</p>
+                            </div>
+                            <div>
+                                <label for="user_pwd">确认密码</label>
+                                <input type="password" name="" id="user_pwd2" placeholder="请输入账户密码">
+                                <img src="imgs/icons/lock.svg">
+                                <p class="tips hidden">请检查您的密码</p>
+                            </div>
+                            <div>
+                                <label for="user_name">邮箱</label>
+                                <input type="text" name="" id="user_email" placeholder="邮箱">
+                                <img src="imgs/icons/user.svg">
+                                <p class="tips hidden">请检查您的邮箱</p>
+                            </div>
+                            <div class="b_clear">
+                                <label for="auth_code" class="b_clear">验证码</label>
+                                <input type="text" name="" id="auth_code" placeholder="" class="l_float" maxlength="6">
+                                
+                                <button  type="button" class="auth_code l_float" value=""onclick="yanzheng()">获取验证码</button>
+                                <img src="imgs/icons/auth_code.svg">
+                                <p class="tips hidden">验证码错误</p>
+                                
+                            </div>
+                            <div class="b_clear submit">
+                                <button type="button" onclick="index()" id=bt_3>注&nbsp;&nbsp;册</button>
+                             
+                            </div>
+                        </form>   
+                    </div>
+                  
+                    
+                    
+                </div>
+                <div class="login_ad1 l_float" id="AdImg">
+                  
+                </div>
+            </div>
+            <div class="footer">
+                   
+        </div> 
+        <script>
+                   function yanzheng(){
+                var name= document.getElementById('user_name');
+                var email= document.getElementById('user_email');
+                var u_email=email.value;
+                var u_Name=name.value;
+                if(u_Name==""||u_email==""){
+                   alert("不能出现空值")
+                  return;
+               }
+          
+               var regex=new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$");
+           if(!regex.test(u_email)) {
+            alert("邮箱填写错误")
+            return;
+           }
+                $.ajax({
+		   type: "POST",
+		   url: "http://localhost:8081/NBA/NBA_indexEmail",
+		   data: "u_Name="+u_Name+"&u_email="+u_email,
+		   success: function(msg){
+               console.log(msg)
+		     if(msg)
+			 {
+				alert("验证码已经发送")	 
+			 }
+			 else
+			 {
+                alert("验证码发送失败")
+			 }
+		   }
+		});
+            }
+            function index(){
+                var name= document.getElementById('user_name');
+                var email2= document.getElementById('user_email');
+               var pwd=document.getElementById('user_pwd');
+               var pwd2=document.getElementById('user_pwd2');
+               var verification=document.getElementById('auth_code');
+               var u_email2=email2.value;
+               var u_PWD=pwd.value;
+               var u_PWD2=pwd2.value;
+               var u_Name=name.value;
+               var verificationcc=verification.value;
+              console.log(u_email2+"-------------------------")
+               if(u_Name==""||u_email2==""||u_PWD==""||u_PWD2==""||verification==""||u_PWD2==""){
+                   alert("不能出现空值")
+                   return;
+               }
+               var regex=new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$");
+               if(!regex.test(u_email2)) {
+            alert("邮箱填写错误")
+            return;
+           }
+          
+               if(u_PWD!=u_PWD2){
+                   alert("两次输入的密码不一致")
+                   return;
+               }
+               $.ajax({
+		   type: "POST",
+		   url: "http://localhost:8081/NBA/NBA_zhuce",
+		   data: "u_Name="+u_Name+"&u_PWD="+u_PWD+"&u_email="+u_email2+"&u_verification="+verificationcc,
+		   success: function(msg){
+               console.log(msg)
+			 if(msg=="cf")
+			 {
+                alert("用户名以及被注册过了")
+                return
+			 }
+             if(msg=="yzmcw"){
+                alert("验证码错误重新书写")
+                return
+             }
+             if(msg=="ok")
+			 {
+				alert("注册成功")	 
+                window.open('index.html');
+                window.close();
+                
+			 }
+		   }
+		});
+          
+            }
+           
+        </script>        
+    </body>
+</html>

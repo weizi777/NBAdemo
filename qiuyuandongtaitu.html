@@ -1,0 +1,171 @@
+<html><head lang="en">
+    
+    <title>热爱，只关于篮球</title>
+    <link rel="stylesheet" href="./css/css_cae958.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./js/jquery-1.8.0.min.js"></script>
+    <script src="./js/Cookie_Utils.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+
+<body data-teamid="index" class="show-banner-allstar">
+<!-- 完整头部 -->
+<div class="header">
+    
+    <div class="header-wrap">
+        
+
+        <div class="nav index">
+    
+    <div class="nav-wrap">
+        <ul>
+            <li class="nav-tab nav-index"><a  class="no-arrow">首页</a></li>
+            <li class="nav-tab nav-teams">
+                <a href="qiudui.html">球队</a>
+            </li>
+            <li class="nav-tab nav-players">
+                <a href="qiuyuan.html">球员</a>
+              
+            </li>
+            <li class="nav-tab nav-schedule">
+                <a href="https://china.nba.com/schedule/#!/7">赛程</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/schedule/#!/7">赛程</a></li>
+                    <li><a href="https://china.nba.com/playoffs/">季后赛</a></li>
+                    <li><a href="https://china.nba.com/important_news/importantdate.htm">2018-19赛季重要日期</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-standings">
+                <a href="https://china.nba.com/standings/">排名</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/standings/">联盟排名</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-statistics">
+                <a href="https://china.nba.com/statistics/">数据</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/statistics/">球员数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/teamstats/">球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/advancedteamstats/">高级球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/leagueleaders/">联盟数据王</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-videos"><a href="https://china.nba.com/videos/" class="no-arrow">视频</a></li>
+            <li class="nav-tab nav-news"><a href="https://china.nba.com/news/" class="no-arrow">新闻</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">图集</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">联系我</a></li>
+        </ul>
+    </div>
+   
+</div>
+
+    </div>
+    
+</div>
+<div class="page-header ng-scope" id="lianjie" >
+    <a href="zhuye.html">首页</span></a> / 球员明细 </span>
+</div>
+<div class=""id="hengkuang2">
+    <h1 id="qiuyuan">球员明细</h1>
+    
+  </div>
+  <div id="photoss" >
+    
+  </div>
+  <div class="table-responsive">
+    <table class="table" id="player_table2">
+       
+        <tbody id="tbody-result">
+        
+        </tbody>
+      </table>
+  </div>
+  <div id="main" style="width: 600px;height:400px;"></div>
+  <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // 指定图表的配置项和数据
+      var option = {
+          title: {
+              text: 'NBA球员分析'
+          },
+          tooltip: {},
+          legend: {
+              data:['数据']
+          },
+          xAxis: {
+              data: []
+          },
+          yAxis: {},
+          color:['#FE8463', 'red', 'green'],
+          series: [{
+             
+              type: 'bar',
+              data: [5, 20, 36, 10, 10, 20]
+          }]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+  </script>
+  <script>
+      $(document).ready(
+    
+   function(){
+    var playerid=$.cookie("playerid");
+    var names=["得分","篮板","助攻","出场时间","失误","效率"];    //类别数组（实际用来盛放X轴坐标值）
+    var nums=[];    //销量数组（实际用来盛放Y坐标值）
+
+    var tbody=document.getElementById("tbody-result")
+    $.ajax({
+		   type: "POST",
+		   url: "http://localhost:8081/NBA/NBA_BesterPLAYERfenxi",
+           data:"id="+playerid+"",
+		   success: function(msg){
+            if (msg!=null) {  
+                // var obj = JSON.stringify(msg)
+                var obj = eval("("+msg+")");
+                var str = ""; 
+                   
+                        str += 
+                        '<tr class="bg-success">'+ '<td>名字</td>'+   '<td>'+obj[0].lastname+'</td>'+ '</tr>'+
+                        '<tr class="bg-info">'+ '<td>出场时间</td>'+  '<td>'+obj[0].mins_pg+'</td>'+ '</tr>'+
+                        '<tr class="bg-success">'+ '<td>得分</td>'+   '<td>'+obj[0].points_pg+'</td>'+ '</tr>'+
+                        '<tr class="bg-info">'+ '<td>篮板</td>'+   '   <td>'+obj[0].rebs_pg+'</td>'+ '</tr>'+
+                        '<tr class="bg-success">'+ '<td>助攻</td>'+   '<td>'+obj[0].assists_pg+'</td>'+ '</tr>'+
+                        '<tr class="bg-info">'+ '<td>三分</td>'+      '<td>'+obj[0].tppct+'</td>'+ '</tr>'
+                        nums.push(obj[0].points_pg)
+                        nums.push(obj[0].rebs_pg)
+                        nums.push(obj[0].assists_pg)
+                        nums.push(obj[0].mins_pg)
+                        nums.push(obj[0].turnovers_pg)
+                        nums.push(obj[0].efficiency)
+                        $("#photoss").append('<img src="./img/player/'+obj[0].playerId+'.png"style="width: 200px; height: 200px;" id="photo">')
+                    
+                    tbody.innerHTML = str;  
+                    
+                    myChart.hideLoading();    //隐藏加载动画
+                     myChart.setOption({        //加载数据图表
+                    xAxis: {
+                        data: names
+                    },
+                    color:['#FE8463', 'red', 'green'],
+                    series: [{
+                     
+                        // 根据名字对应到相应的系列
+                        name: 'NBA球员分析',
+                        data: nums
+                    }]
+                });
+              
+               
+                }  
+		   }
+		});
+})
+  </script>
+  </body>
+  </html>

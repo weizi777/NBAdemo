@@ -1,0 +1,146 @@
+<html><head lang="en">
+    
+    <title>热爱，只关于篮球</title>
+    <link rel="stylesheet" href="./css/css_cae958.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./js/jquery-1.8.0.min.js"></script>
+    <script src="./js/Cookie_Utils.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-teamid="index" class="show-banner-allstar">
+<!-- 完整头部 -->
+<div class="header">
+    
+    <div class="header-wrap">
+        
+
+        <div class="nav index">
+    
+    <div class="nav-wrap">
+        <ul>
+            <li class="nav-tab nav-index"><a  class="no-arrow">首页</a></li>
+            <li class="nav-tab nav-teams">
+                <a href="qiudui.html">球队</a>
+            </li>
+            <li class="nav-tab nav-players">
+                <a href="qiuyuan.html">球员</a>
+              
+            </li>
+            <li class="nav-tab nav-schedule">
+                <a href="https://china.nba.com/schedule/#!/7">赛程</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/schedule/#!/7">赛程</a></li>
+                    <li><a href="https://china.nba.com/playoffs/">季后赛</a></li>
+                    <li><a href="https://china.nba.com/important_news/importantdate.htm">2018-19赛季重要日期</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-standings">
+                <a href="https://china.nba.com/standings/">排名</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/standings/">联盟排名</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-statistics">
+                <a href="https://china.nba.com/statistics/">数据</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/statistics/">球员数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/teamstats/">球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/advancedteamstats/">高级球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/leagueleaders/">联盟数据王</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-videos"><a href="https://china.nba.com/videos/" class="no-arrow">视频</a></li>
+            <li class="nav-tab nav-news"><a href="https://china.nba.com/news/" class="no-arrow">新闻</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">图集</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">联系我</a></li>
+        </ul>
+    </div>
+   
+</div>
+
+    </div>
+    
+</div>
+<div class="page-header ng-scope" id="lianjie" >
+    <a href="zhuye.html">首页</span></a> / 球员排行 </span>
+</div>
+<div class=""id="hengkuang2">
+    <h1 id="qiuyuan">球员排行</h1>
+    
+  </div>
+  <div id="ta_1">
+    <table class="table table-striped" id="player_table">
+        <thead>
+          <tr>
+            <th>球员</th>
+        
+            <th>名字</th>
+            <th>场次</th>
+            <th>首发</th>
+            <th>出场时间</th>
+            <th>得分</th>
+            <th>篮板</th>
+            <th>助攻</th>
+            <th>效率</th>
+            <th>罚球</th>
+            <th>失误</th>
+            <th>三分</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-result">
+        
+        </tbody>
+      </table>
+  </div>
+</body>
+
+<script> 
+$(document).ready(
+   function(){
+    var tbody=document.getElementById("tbody-result")
+    $.ajax({
+		   type: "POST",
+		   url: "http://localhost:8081/NBA/NBA_BesterPLAYER",
+		   success: function(msg){
+            if (msg!=null) {  
+                // var obj = JSON.stringify(msg)
+                var obj = eval("("+msg+")");
+                var str = ""; 
+                    for (var i = 0; i < obj.length; i++) {
+                        str += "<tr>" +   
+                        '<td ><img src="./img/player/'+obj[i].playerId+'.png" style="width: 40px; height: 30px;"></td>' +  
+                        "<td>" +obj[i].lastname +"</td>" +
+                        '<td id="name"> '+obj[i].games +'</td>' +    
+                        "<td>" + obj[i].games_started +"</td>" +  
+                        "<td>" + obj[i].mins_pg +"</td>" +  
+                        "<td>" + obj[i].points_pg+ "</td>" +  
+                        "<td>" + obj[i].rebs_pg +"</td>" +  
+                        "<td>" + obj[i].assists_pg +"</td>" +  
+                        "<td>" + obj[i].efficiency +"</td>" +  
+                        "<td>" + obj[i].ftpct +"</td>" + 
+                        "<td>" + obj[i].turnovers_pg + "</td>"+ 
+                        "<td>" + obj[i].ftpct + "</td>"+ 
+                        '<td ><button type="button" id="'+obj[i].playerId+'" onclick="more('+obj[i].playerId+')" class="btn btn-success btn-sm">更多</button></td>' + 
+                        "</tr>";  
+                    }  
+                    tbody.innerHTML = str;  
+                }  
+		   }
+		});
+})
+
+</script>
+<script>
+    function more(id){
+
+        var playerlog=id;
+       if(playerlog!=null){
+        $.cookie('playerid',playerlog)
+        setTimeout(function(){window.location='qiuyuandongtaitu.html'},100);
+       }
+        
+    }
+</script>
+</html>

@@ -1,0 +1,135 @@
+<html><head lang="en">
+    
+    <title>热爱，只关于篮球</title>
+    <link rel="stylesheet" href="./css/css_cae958.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./js/jquery-1.8.0.min.js"></script>
+    <script src="./js/Cookie_Utils.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body data-teamid="index" class="show-banner-allstar">
+<!-- 完整头部 -->
+<div class="header">
+    
+    <div class="header-wrap">
+        
+
+        <div class="nav index">
+    
+    <div class="nav-wrap">
+        <ul>
+            <li class="nav-tab nav-index"><a  class="no-arrow">首页</a></li>
+            <li class="nav-tab nav-teams">
+                <a href="qiudui.html">球队</a>
+            </li>
+            <li class="nav-tab nav-players">
+                <a href="qiuyuan.html">球员</a>
+              
+            </li>
+            <li class="nav-tab nav-schedule">
+                <a href="https://china.nba.com/schedule/#!/7">赛程</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/schedule/#!/7">赛程</a></li>
+                    <li><a href="https://china.nba.com/playoffs/">季后赛</a></li>
+                    <li><a href="https://china.nba.com/important_news/importantdate.htm">2018-19赛季重要日期</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-standings">
+                <a href="https://china.nba.com/standings/">排名</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/standings/">联盟排名</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-statistics">
+                <a href="https://china.nba.com/statistics/">数据</a>
+                <ul class="nav-menu">
+                    <li><a href="https://china.nba.com/statistics/">球员数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/teamstats/">球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/advancedteamstats/">高级球队数据</a></li>
+                    <li><a href="https://china.nba.com/statistics/leagueleaders/">联盟数据王</a></li>
+                </ul>
+            </li>
+            <li class="nav-tab nav-videos"><a href="https://china.nba.com/videos/" class="no-arrow">视频</a></li>
+            <li class="nav-tab nav-news"><a href="https://china.nba.com/news/" class="no-arrow">新闻</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">图集</a></li>
+            <li class="nav-tab nav-photos"><a href="https://china.nba.com/photos/" class="no-arrow">联系我</a></li>
+        </ul>
+    </div>
+   
+</div>
+
+    </div>
+    
+</div>
+<div class="page-header ng-scope" id="lianjie" >
+    <a href="zhuye.html">首页</span></a> / 球队排行 </span>
+</div>
+<div class=""id="hengkuang2">
+    <h1 id="qiuyuan">球队排行</h1>
+    
+  </div>
+  <div id="ta_1">
+    <table class="table table-striped" id="player_table">
+        <thead>
+          <tr>
+            <th>球队</th>
+            <th>胜场</th>
+            <th>败场</th>
+            <th>胜率</th>
+            <th>状态</th>
+            <th>胜场差</th>
+            <th>得分/场</th>
+            <th>失分/场</th>
+            <th>差距</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-result">
+        
+        </tbody>
+      </table>
+  </div>
+</body>
+<script>
+     
+$(document).ready(
+
+
+   function(){
+   var u_Name=getCookie('u_Name');
+   console.log(u_Name)
+    var tbody=document.getElementById("tbody-result")
+
+   
+    $.ajax({
+		   type: "POST",
+		   url: "http://localhost:8081/NBA/nba_standings",
+		
+		   success: function(msg){
+            if (msg!=null) {  
+                // var obj = JSON.stringify(msg)
+                var obj = eval("("+msg+")");
+                var str = ""; 
+                    for (var i = 0; i < obj.length; i++) {  
+                     
+                        str += "<tr>" +  
+                        '<td ><img src="./img/qiudui/'+obj[i].id+'.jpg" style="width: 40px; height: 30px;"></td>' +  
+                        "<td>" +obj[i].wins + "</td>" +
+                        '<td id="name"> '+obj[i].losses + '</td>' +    
+                        "<td>" + obj[i].win_pct + "</td>" +  
+                        "<td>" + obj[i].streak + "</td>" +  
+                        "<td>" + obj[i].div_game_behind + "</td>" +  
+                        "<td>" + obj[i].points_for + "</td>" +  
+                        "<td>" + obj[i].points_against + "</td>" +  
+                        "<td>" + obj[i].points_diff + "</td>" + 
+                        "</tr>";  
+                    }  
+                    tbody.innerHTML = str;  
+                }  
+		   }
+		});
+})
+
+</script>
+</html>
